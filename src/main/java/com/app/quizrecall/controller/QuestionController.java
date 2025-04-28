@@ -1,8 +1,11 @@
 package com.app.quizrecall.controller;
 
+import com.app.quizrecall.dto.util.QuestionDtoUtil;
 import com.app.quizrecall.model.Paper;
 import com.app.quizrecall.model.Question;
+import com.app.quizrecall.service.PaperService;
 import com.app.quizrecall.service.QuestionService;
+import com.app.quizrecall.util.Base64Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class QuestionController {
     private final QuestionService questionService;
+    private final Base64Util base64Util;
+    private final PaperService paperService;
+    private final QuestionDtoUtil questionDtoUtil;
 
     @PostMapping("/")
     public ResponseEntity<?> createQuestion(@RequestParam(name = "id", required = false) Integer id,
@@ -33,6 +39,26 @@ public class QuestionController {
             question.setCategory(category);
             question.setPaper(paper);
             return new ResponseEntity<>(questionService.createQuestion(question), HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*
+     * parameter2 should be either AA== (false) or AQ== (true)
+     */
+    @PostMapping("/paper")
+    public ResponseEntity<?> getQuestionsAndAnswersByPaper(@RequestParam(name = "parameter1") String parameter1,
+                                                           @RequestParam(name = "parameter2") String parameter2) {
+        try {
+            int paperId = base64Util.decodeInteger(parameter1);
+            log.info("Decoded " + parameter1 + " to paper ID: " + paperId);
+            boolean withMarks = base64Util.decodeBoolean(parameter2);
+            log.info("Decoded " + parameter2 + " to with marks: " + withMarks);
+
+            Paper paper = paperService.getPaperById(paperId);
+            return new ResponseEntity<>(questionDtoUtil.getQuestionDtosByPaper(paper, withMarks), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
