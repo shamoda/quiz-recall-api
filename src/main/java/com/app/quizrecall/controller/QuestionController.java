@@ -29,7 +29,7 @@ public class QuestionController {
                                             @RequestParam(name = "description") String description,
                                             @RequestParam(name = "type") String type,
                                             @RequestParam(name = "category") String category,
-                                            @RequestParam(name = "paper") Paper paper) {
+                                            @RequestParam(name = "paperId") int paperId) {
         try {
             Question question = new Question();
             question.setId(id);
@@ -37,7 +37,7 @@ public class QuestionController {
             question.setDescription(description);
             question.setType(type);
             question.setCategory(category);
-            question.setPaper(paper);
+            question.setPaper(paperService.getPaperById(paperId));
             return new ResponseEntity<>(questionService.createQuestion(question), HttpStatus.CREATED);
         } catch (Exception e) {
             log.error(e);
