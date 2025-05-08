@@ -1,6 +1,8 @@
 package com.app.quizrecall.controller;
 
+import com.app.quizrecall.model.Exam;
 import com.app.quizrecall.model.Paper;
+import com.app.quizrecall.service.ExamService;
 import com.app.quizrecall.service.PaperService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class PaperController {
     private final PaperService paperService;
+    private final ExamService examService;
 
     @PostMapping("/")
     public ResponseEntity<?> createPaper(@RequestParam(name = "id", required = false) Integer id,
@@ -32,6 +35,17 @@ public class PaperController {
             paper.setYear(year);
             paper.setStatus(status);
             return new ResponseEntity<>(paperService.createPaper(paper), HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{examId}")
+    public ResponseEntity<?> getPapersByExam(@PathVariable int examId) {
+        try {
+            Exam exam = examService.getExamById(examId);
+            return new ResponseEntity<>(paperService.getPapersByExam(exam), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

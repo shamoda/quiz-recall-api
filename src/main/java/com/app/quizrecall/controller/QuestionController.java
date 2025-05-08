@@ -6,6 +6,7 @@ import com.app.quizrecall.model.Question;
 import com.app.quizrecall.service.PaperService;
 import com.app.quizrecall.service.QuestionService;
 import com.app.quizrecall.util.Base64Util;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,7 @@ public class QuestionController {
      * parameter2 should be either AA== (false) or AQ== (true)
      */
     @PostMapping("/paper")
+    @Operation(summary = "Both parameters should be base64 encoded.", description = "parameter1 is for paperId and parameter2 is withMarks flag. parameter2 should be either AA== (false) or AQ== (true). reason is to avoid url bypassing")
     public ResponseEntity<?> getQuestionsAndAnswersByPaper(@RequestParam(name = "parameter1") String parameter1,
                                                            @RequestParam(name = "parameter2") String parameter2) {
         try {

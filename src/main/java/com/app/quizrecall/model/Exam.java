@@ -13,23 +13,15 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Entity
-public class Paper {
+public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String medium;
-    private String type; // past paper/model paper
-    @ManyToOne
-    @JoinColumn(name = "exam")
-    private Exam exam; // OL/AL/Scholarship
-    private String subject;
-    private int year;
-    private String status; // draft/published/unpublished
+    private String name;
 
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createdDate;
     @UpdateTimestamp()
     private LocalDateTime lastUpdated;
-
 }
