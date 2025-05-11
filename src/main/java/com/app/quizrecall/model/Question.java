@@ -23,6 +23,9 @@ public class Question {
     private String description;
     private String type; // essay/single answer/multiple answer
     private String category; // sections of syllabus
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String explanation;
     @ManyToOne
     @JoinColumn(name = "paper")
     private Paper paper;

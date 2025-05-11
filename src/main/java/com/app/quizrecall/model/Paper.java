@@ -25,6 +25,7 @@ public class Paper {
     private String subject;
     private int year;
     private String status; // draft/published/unpublished
+    private int duration;
 
     @Column(updatable = false)
     @CreationTimestamp

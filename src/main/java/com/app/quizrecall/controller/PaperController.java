@@ -25,7 +25,8 @@ public class PaperController {
                                          @RequestParam(name = "type") String type,
                                          @RequestParam(name = "subject") String subject,
                                          @RequestParam(name = "year") int year,
-                                         @RequestParam(name = "status") String status) {
+                                         @RequestParam(name = "status") String status,
+                                         @RequestParam(name = "duration") int duration) {
         try {
             Paper paper = new Paper();
             paper.setId(id);
@@ -34,6 +35,7 @@ public class PaperController {
             paper.setSubject(subject);
             paper.setYear(year);
             paper.setStatus(status);
+            paper.setDuration(duration);
             return new ResponseEntity<>(paperService.createPaper(paper), HttpStatus.CREATED);
         } catch (Exception e) {
             log.error(e);

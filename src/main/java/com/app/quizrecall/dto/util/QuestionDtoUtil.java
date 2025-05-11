@@ -24,7 +24,7 @@ public class QuestionDtoUtil {
         List<QuestionDto> questionDtos = new ArrayList<>();
 
         for (Question question : questions) {
-            QuestionDto questionDto = questionDtoMapper.entityToDto(question);
+            QuestionDto questionDto = questionDtoMapper.entityToDto(question, withMarks);
             List<AnswerDto> answerDtos = answerDtoUtil.getAnswerDtosByQuestion(question, withMarks);
             questionDto.setAnswers(answerDtos);
             questionDtos.add(questionDto);

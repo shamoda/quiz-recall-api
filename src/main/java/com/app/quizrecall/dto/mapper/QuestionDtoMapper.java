@@ -20,6 +20,22 @@ public class QuestionDtoMapper implements DtoMapper<Question, QuestionDto> {
         dto.setDescription(entity.getDescription());
         dto.setType(entity.getType());
         dto.setCategory(entity.getCategory());
+        dto.setExplanation(entity.getExplanation());
+        dto.setPaperId(entity.getPaper().getId());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setLastUpdated(entity.getLastUpdated());
+        return dto;
+    }
+
+    public QuestionDto entityToDto(Question entity, boolean withMarks) {
+        QuestionDto dto = new QuestionDto();
+        dto.setId(entity.getId());
+        dto.setNumber(entity.getNumber());
+        dto.setDescription(entity.getDescription());
+        dto.setType(entity.getType());
+        dto.setCategory(entity.getCategory());
+        if (withMarks)
+            dto.setExplanation(entity.getExplanation());
         dto.setPaperId(entity.getPaper().getId());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setLastUpdated(entity.getLastUpdated());

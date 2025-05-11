@@ -17,6 +17,7 @@ public class QuestionDto {
     private String description;
     private String type;
     private String category;
+    private String explanation;
     private Integer paperId;
     private List<AnswerDto> answers;
     private LocalDateTime createdDate;
