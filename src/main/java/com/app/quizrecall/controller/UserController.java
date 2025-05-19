@@ -21,7 +21,8 @@ public class UserController {
                                         @RequestParam(name = "name") String name,
                                         @RequestParam(name = "mobileNo") String mobileNo,
                                         @RequestParam(name = "fee", required = false) int fee,
-                                        @RequestParam(name = "status", required = false) String status) {
+                                        @RequestParam(name = "status", required = false) String status,
+                                        @RequestParam(name = "referredMobile", required = false) String referredMobile) {
         try {
             User user = userService.getUserByMobileNo(mobileNo);
 
@@ -31,6 +32,13 @@ public class UserController {
                 user.setMobileNo(mobileNo);
                 user.setFee(fee);
                 user.setStatus(status);
+                if (referredMobile != null) {
+                    User referredUser = userService.getUserByMobileNo(referredMobile);
+                    if (referredUser != null)
+                        user.setReferredBy(referredUser);
+                    else
+                        return new ResponseEntity<>("Invalid referral number: " + referredMobile, HttpStatus.OK);
+                }
 
                 return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
             } else {

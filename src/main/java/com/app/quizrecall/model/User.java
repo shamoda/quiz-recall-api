@@ -22,6 +22,10 @@ public class User {
     private String mobileNo;
     private int fee;
     private String status; // active/inactive
+    private int studentRank;
+    @ManyToOne
+    @JoinColumn(name = "referred_by")
+    private User referredBy;
 
     @Column(updatable = false)
     @CreationTimestamp
