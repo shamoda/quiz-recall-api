@@ -21,7 +21,6 @@ public class UserController {
                                         @RequestParam(name = "name") String name,
                                         @RequestParam(name = "mobileNo") String mobileNo,
                                         @RequestParam(name = "fee", required = false) int fee,
-                                        @RequestParam(name = "status", required = false) String status,
                                         @RequestParam(name = "referredMobile", required = false) String referredMobile) {
         try {
             User user = userService.getUserByMobileNo(mobileNo);
@@ -31,13 +30,22 @@ public class UserController {
                 user.setName(name);
                 user.setMobileNo(mobileNo);
                 user.setFee(fee);
-                user.setStatus(status);
+                // status should be updated when the subscription is introduced
+                user.setActive(true);
+
+                // checking the referred mobile number parameter availability
                 if (referredMobile != null) {
                     User referredUser = userService.getUserByMobileNo(referredMobile);
-                    if (referredUser != null)
-                        user.setReferredBy(referredUser);
-                    else
+                    // checking the referred user availability
+                    if (referredUser != null) {
+                        // checking referred user's active status
+                        if (referredUser.isActive())
+                            user.setReferredBy(referredUser);
+                        else
+                            return new ResponseEntity<>("Referral number you entered " + referredMobile + " is inactive", HttpStatus.OK);
+                    } else {
                         return new ResponseEntity<>("Invalid referral number: " + referredMobile, HttpStatus.OK);
+                    }
                 }
 
                 return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);

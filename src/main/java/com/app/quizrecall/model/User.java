@@ -21,7 +21,7 @@ public class User {
     @Column(unique=true)
     private String mobileNo;
     private int fee;
-    private String status; // active/inactive
+    private boolean isActive; // active/inactive
     private int studentRank;
     @ManyToOne
     @JoinColumn(name = "referred_by")
