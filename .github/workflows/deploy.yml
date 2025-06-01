@@ -9,7 +9,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: pp-champ-repo
   ECS_CLUSTER: pp-champ-cluster
-  ECS_SERVICE: pp-champ-service
+  ECS_SERVICE: pp-champ-api-service
   IMAGE_TAG: latest
 
 jobs:
