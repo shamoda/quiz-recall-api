@@ -23,6 +23,7 @@ public class PaperController {
     public ResponseEntity<?> createPaper(@RequestParam(name = "id", required = false) Integer id,
                                          @RequestParam(name = "medium") String medium,
                                          @RequestParam(name = "type") String type,
+                                         @RequestParam(name = "exam") int examId,
                                          @RequestParam(name = "subject") String subject,
                                          @RequestParam(name = "year") int year,
                                          @RequestParam(name = "status") String status,
@@ -32,6 +33,7 @@ public class PaperController {
             paper.setId(id);
             paper.setMedium(medium);
             paper.setType(type);
+            paper.setExam(examService.getExamById(examId));
             paper.setSubject(subject);
             paper.setYear(year);
             paper.setStatus(status);
